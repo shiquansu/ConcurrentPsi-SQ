@@ -1,0 +1,59 @@
+test1.o: test1.cpp ../src/Parallelizer.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src/Pthreads.h ../src/CriticalStorage.h \
+ ../src/Mpi.h ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h
+test2.o: test2.cpp ../src/Parallelizer.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src/Pthreads.h ../src/CriticalStorage.h \
+ ../src/Mpi.h ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h
+test3.o: test3.cpp ../src/Parallelizer.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src/Pthreads.h ../src/CriticalStorage.h \
+ ../src/Mpi.h ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h
+test4.o: test4.cpp ../src/Parallelizer.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src/Pthreads.h ../src/CriticalStorage.h \
+ ../src/Mpi.h ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h
+test5.o: test5.cpp ../src/Parallelizer.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src/Pthreads.h ../src/CriticalStorage.h \
+ ../src/Mpi.h ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h
+test6.o: test6.cpp ../src/Parallelizer.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src/Pthreads.h ../src/CriticalStorage.h \
+ ../src/Mpi.h ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h
+test7.o: test7.cpp ../src/Parallelizer.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src/Pthreads.h ../src/CriticalStorage.h \
+ ../src/Mpi.h ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h \
+ ../src/KernelCompositor.h
+test7-SQ.o: test7-SQ.cpp ../src/ParallelizerAsync.h \
+ ../../PsimagLite/src/Vector.h ../../PsimagLite/src/Complex.h \
+ ../../PsimagLite/src/AllocatorCpu.h ../../PsimagLite/src/String.h \
+ ../src/Pthreads.h ../src/CriticalStorage.h ../src/Mpi.h \
+ ../src/ParallelTypeEnum.h ../src/CriticalStorageImpl.h \
+ ../src/CriticalReal.h ../src/ConcurrentPattern.h \
+ ../../PsimagLite/src/TypeToString.h ../src/MpiHolder.h \
+ ../../PsimagLite/src/String.h ../src/CriticalStorage.h \
+ ../src/KernelCompositor.h
