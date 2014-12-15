@@ -1,8 +1,5 @@
-/*
-Only have  pthread implementation currently.
-*/
-#ifndef PARALLELIZERASYNC_H
-#define PARALLELIZERASYNC_H
+#ifndef PARALLELIZER_H
+#define PARALLELIZER_H
 #include "Vector.h"
 #include "Pthreads.h"
 #include <cassert>
@@ -44,14 +41,14 @@ public:
 };
 
 template<ParallelTypeEnum type,typename KernelType>
-class ParallelizerAsync : public ParallelizerBase<type,KernelType> {
+class Parallelizer : public ParallelizerBase<type,KernelType> {
 
 	typedef ParallelizerBase<type,KernelType> BaseType;
 	typedef typename BaseType::CriticalStorageType CriticalStorageType;
 
 public:
 
-	ParallelizerAsync(KernelType& kernel,
+	Parallelizer(KernelType& kernel,
 	             int n = 1,
 	             int* argcPtr = 0,
 	             char*** argvPtr = 0)
@@ -72,7 +69,7 @@ private:
 }; // class Parallelizer
 
 template<typename KernelType>
-class ParallelizerAsync<TYPE_PTHREADS,KernelType>
+class Parallelizer<TYPE_PTHREADS,KernelType>
         : public ParallelizerBase<TYPE_PTHREADS,KernelType> {
 
 	typedef ParallelizerBase<TYPE_PTHREADS,KernelType> BaseType;
@@ -94,7 +91,7 @@ public:
 
 	typedef CriticalStorageType_ CriticalStorageType;
 
-	ParallelizerAsync(KernelType& kernel,
+	Parallelizer(KernelType& kernel,
 	             SizeType nPthreads,
 	             int* = 0,
 	             char*** = 0)
@@ -110,8 +107,6 @@ public:
 
 		cs.prepare(nthreads_);
 
-                // wait until(availCE >= nthreads)
-
 		for (SizeType j=0; j < nthreads_; j++) {
 			int ret=0;
 			pfs[j].threadNum = j;
@@ -124,8 +119,7 @@ public:
 				std::cerr<<"Thread creation failed: "<<ret<<"\n";
 		}
 
-//		for (SizeType j=0; j < nthreads_; j++) Pthreads::join(threadId[j], 0);
-                // return the thread to the pool, availCE++
+		for (SizeType j=0; j < nthreads_; j++) Pthreads::join(threadId[j], 0);
 	}
 
 private:
@@ -145,16 +139,69 @@ private:
 			                   pfs->threadNum,
 			                   *pfs->criticalStorage);
 		}
-        // return the thread to the pool, availCE++
+
 		return 0;
 	}
 
 	KernelType& kernel_;
 	SizeType nthreads_;
-}; // class ParallelizerAsync
+}; // class Parallelizer
 
+template<typename KernelType>
+class Parallelizer<TYPE_MPI,KernelType> : public ParallelizerBase<TYPE_MPI,KernelType> {
+
+	typedef ParallelizerBase<TYPE_MPI,KernelType> BaseType;
+	typedef Mpi MpiType;
+
+public:
+
+	typedef typename BaseType::CriticalStorageType CriticalStorageType;
+
+	Parallelizer(KernelType& kernel,
+	             int mpiSizeArg,
+	             int* argcPtr = 0,
+	             char*** argvPtr = 0)
+	    : BaseType(argcPtr,argvPtr,mpiSizeArg),
+	      kernel_(kernel),
+	      mpiComm_(BaseType::currentGroup())
+	{}
+
+	void launch(CriticalStorageType& cs)
+	{
+		SizeType total = kernel_.size();
+
+		std::cerr<<"Calling launch with comm="<<mpiComm_<<"\n";
+		MpiType::waitForPrinting();
+
+		cs.prepare(BaseType::mpiPtr(), mpiComm_);
+		SizeType procs = BaseType::mpi().size(mpiComm_);
+		SizeType block = static_cast<SizeType>(total/procs);
+		if (total % procs !=0) block++;
+		SizeType mpiRank = BaseType::mpi().rank(mpiComm_);
+
+		for (SizeType i = 0; i < block; ++i) {
+			SizeType index = i + block*mpiRank;
+			if (index >= total) continue;
+			kernel_(index,0,cs);
+		}
+	}
+
+	static bool canPrint()
+	{
+		return (BaseType::mpi().rank(Mpi::commWorld()) == 0);
+	}
+
+private:
+
+	Parallelizer(const Parallelizer&);
+
+	Parallelizer& operator=(const Parallelizer& other);
+
+	KernelType& kernel_;
+	Mpi::CommType mpiComm_;
+}; // class Parallelizer
 
 } // namespace ConcurrentPsi
 
-#endif // PARALLELIZERASYNC_H
+#endif // PARALLELIZER_H
 

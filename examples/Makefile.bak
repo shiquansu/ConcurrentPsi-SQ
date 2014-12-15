@@ -6,7 +6,7 @@
 
 LDFLAGS =         -lm  -lpthread
 CPPFLAGS = -Werror -Wall -Wstrict-overflow=5  -frecord-gcc-switches   -I../../PsimagLite  -I../../PsimagLite/src -I../src
-CXX = g++ -O3 -DNDEBUG -DUSE_PTHREADS -std=c++11
+CXX = g++ -O3 -DNDEBUG -DUSE_PTHREADS
 all: test1 test2 test3 test4 test5 test6 test7 test7-SQ  
 
 test1.o: test1.cpp  Makefile  

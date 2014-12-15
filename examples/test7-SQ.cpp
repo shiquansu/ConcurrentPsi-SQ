@@ -126,13 +126,13 @@ int main(int argc, char* argv[])
 
 	cs.sync();
 
-	if (ParallelizerType::canPrint())
+	if (ParallelizerLongType::canPrint())
 		std::cout<<argv[0]<<" Result1 is "<<tmp1<<"\n";
 
-	if (ParallelizerType::canPrint())
+	if (ParallelizerShortType::canPrint())
 		std::cout<<argv[0]<<" Result2 is "<<tmp2<<"\n";
 
-	if (ParallelizerType::canPrint())
+	if (ParallelizerLongType::canPrint())
 		std::cout<<argv[0]<<" Result3 is "<<tmp3<<"\n";
 }
 
