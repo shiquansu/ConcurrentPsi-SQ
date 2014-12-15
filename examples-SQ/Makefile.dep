@@ -1,0 +1,14 @@
+push_object_into_a_queue.o: push_object_into_a_queue.cpp \
+ ../src-SQ_c++11/ThreadSafeQueue.h ../src-SQ/CriticalStorage.h \
+ ../../PsimagLite/src/Vector.h ../../PsimagLite/src/Complex.h \
+ ../../PsimagLite/src/AllocatorCpu.h ../../PsimagLite/src/String.h \
+ ../src-SQ/Mpi.h ../src-SQ/ParallelTypeEnum.h \
+ ../src-SQ/CriticalStorageImpl.h ../src-SQ/CriticalReal.h \
+ ../src-SQ/ConcurrentPattern.h
+pthreads_operate_threadsafe_queue.o: \
+ pthreads_operate_threadsafe_queue.cpp ../src-SQ_c++11/ThreadSafeQueue.h \
+ ../src-SQ/CriticalStorage.h ../../PsimagLite/src/Vector.h \
+ ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
+ ../../PsimagLite/src/String.h ../src-SQ/Mpi.h \
+ ../src-SQ/ParallelTypeEnum.h ../src-SQ/CriticalStorageImpl.h \
+ ../src-SQ/CriticalReal.h ../src-SQ/ConcurrentPattern.h
