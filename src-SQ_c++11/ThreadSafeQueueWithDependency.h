@@ -1,9 +1,6 @@
-// Shiquan Su adds a JoinThreads class at the end, the code comes from "http://stackoverflow.com/questions/7858866/why-not-run-task-after-pop-and-return-true"
-
 #include <queue>
 #include <mutex> //require -std=c++11
 #include <condition_variable> //require -std=c++11
-#include <thread>
 #include <memory>
 
 namespace ConcurrentPsi {
@@ -69,22 +66,6 @@ public:
     {
         std::lock_guard<std::mutex> lk(mut);
         return data_queue.empty();
-    }
-};
-
-class JoinThreads
-{
-    std::vector<std::thread>& threads;
-public:
-    explicit JoinThreads(std::vector<std::thread>& threads_):threads(threads_)
-    {}
-    ~JoinThreads()
-    {
-        for(unsigned long i=0;i<threads.size();++i)
-        {
-            if(threads[i].joinable())
-                threads[i].join();
-        }
     }
 };
 

@@ -6,8 +6,8 @@ use warnings;
 use lib '../../PsimagLite/scripts';
 use Make;
 
-my @drivers = ("push_object_into_a_queue", "pthreads_operate_threadsafe_queue");
-#my @drivers = ("testThreadsafe_queue");
+#my @drivers = ("push_object_into_a_queue", "pthreads_operate_threadsafe_queue", "tasks_dependency_threadsafe_queue", "stall_enable_threadsafe_queue", "testSimple_threadpool", "testObjectMemberFunction_threadpool", "testSimple_threadpool_object");
+my @drivers = ("testSimple_threadpool_object");
 #my @drivers = ("test1","test2","test3","test4","test5","test6","test7","test7-SQ");
 
 backupMakefile();

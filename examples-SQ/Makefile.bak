@@ -7,27 +7,20 @@
 LDFLAGS =         -lm  -lpthread
 CPPFLAGS = -Werror -Wall -Wstrict-overflow=5  -frecord-gcc-switches   -I../../PsimagLite -I../../PsimagLite/src -I../src-SQ -I../src-SQ_c++11
 CXX = g++ -O3 -DNDEBUG -DUSE_PTHREADS -std=c++11
-all: push_object_into_a_queue pthreads_operate_threadsafe_queue  
+all: testSimple_threadpool_object  
 
-push_object_into_a_queue.o: push_object_into_a_queue.cpp  Makefile  
-	$(CXX) $(CPPFLAGS) -c push_object_into_a_queue.cpp
+testSimple_threadpool_object.o: testSimple_threadpool_object.cpp  Makefile  
+	$(CXX) $(CPPFLAGS) -c testSimple_threadpool_object.cpp
 
-push_object_into_a_queue: push_object_into_a_queue.o
-	$(CXX) -o  push_object_into_a_queue push_object_into_a_queue.o $(LDFLAGS)
-	true push_object_into_a_queue
-
-pthreads_operate_threadsafe_queue.o: pthreads_operate_threadsafe_queue.cpp  Makefile  
-	$(CXX) $(CPPFLAGS) -c pthreads_operate_threadsafe_queue.cpp
-
-pthreads_operate_threadsafe_queue: pthreads_operate_threadsafe_queue.o
-	$(CXX) -o  pthreads_operate_threadsafe_queue pthreads_operate_threadsafe_queue.o $(LDFLAGS)
-	true pthreads_operate_threadsafe_queue
+testSimple_threadpool_object: testSimple_threadpool_object.o
+	$(CXX) -o  testSimple_threadpool_object testSimple_threadpool_object.o $(LDFLAGS)
+	true testSimple_threadpool_object
 
 
-Makefile.dep: push_object_into_a_queue.cpp pthreads_operate_threadsafe_queue.cpp   
-	$(CXX) $(CPPFLAGS) -MM push_object_into_a_queue.cpp pthreads_operate_threadsafe_queue.cpp   > Makefile.dep
+Makefile.dep: testSimple_threadpool_object.cpp   
+	$(CXX) $(CPPFLAGS) -MM testSimple_threadpool_object.cpp   > Makefile.dep
 
 clean: Makefile.dep
-	rm -f core* push_object_into_a_queue pthreads_operate_threadsafe_queue  *.o *.dep  
+	rm -f core* testSimple_threadpool_object  *.o *.dep  
 
 include Makefile.dep
