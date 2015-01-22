@@ -10,15 +10,19 @@ namespace ConcurrentPsi {
 
 template<typename T>  
 class SimpleObjThreadPool {
+public:
 	std::atomic_bool done;
+	std::atomic_bool submissionDone;
+	std::atomic_bool jobDone;
+private:
 	ConcurrentPsi::ThreadSafeQueue<T> workQueue;
-	//ThreadSafeQueue< T > workQueue;
 	std::vector<std::thread> threadsVector;
 	JoinThreads joiner;
 
 	void threadRunTaskFromQueue()
 	{
-		while(!done)
+		while( !(workQueue.empty() && submissionDone) )
+		//while(!done)
 		{
 			T task;
 			if(workQueue.can_pop(task))
@@ -30,10 +34,11 @@ class SimpleObjThreadPool {
 				std::this_thread::yield();
 			}
 		}
+		jobDone=true;
 	}
 public:
 	SimpleObjThreadPool():
-		done(false),joiner(threadsVector)
+		done(false), submissionDone(false), jobDone(false),joiner(threadsVector)
 	{
 		unsigned const thread_count=std::thread::hardware_concurrency();
 		try
@@ -55,6 +60,8 @@ public:
 	~SimpleObjThreadPool()
 	{
 		done=true;
+		jobDone=true;
+		submissionDone=true;
 	}
 
 	void submit(T taskObj)

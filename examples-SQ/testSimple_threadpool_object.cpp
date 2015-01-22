@@ -5,6 +5,7 @@
 #include <pthread.h> //for pthread_t 
 #include <atomic>
 #include <chrono>
+#include <string>
 
 #include "../src-SQ_c++11/SimpleObjThreadPool.h"
 #include "../src-SQ/CriticalStorage.h"
@@ -23,9 +24,13 @@ public:
         };
 
         void executeTask() {
-                unsigned int microseconds=1000000;
-                usleep(microseconds);
-                std::cout<<"in VBlock with VIndex="<<VIndex<<"\n";
+		unsigned int microseconds=1000000;
+		usleep(microseconds);
+		std::string str="in VBlock with VIndex= ";
+		str+=std::to_string(VIndex);
+		str+="\n";
+		std::cout<<str;
+		//std::cout<<"in VBlock with VIndex="<<VIndex<<"\n";
         };
 };
 
@@ -77,6 +82,7 @@ int main(int argc, char* argv[]){
                 testPool.submit( V[i] );
         }
 	printf("submit finish\n");
-//	while(testpool->done == false) std::this_thread::sleep(std::milliseconds(100));
+	testPool.submissionDone = true;
+	while(testPool.jobDone == false) std::this_thread::sleep_for(std::chrono::milliseconds(10));
         return 0;
 }
