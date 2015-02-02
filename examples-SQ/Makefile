@@ -7,20 +7,20 @@
 LDFLAGS =         -lm  -lpthread
 CPPFLAGS = -Werror -Wall -Wstrict-overflow=5  -frecord-gcc-switches   -I../../PsimagLite -I../../PsimagLite/src -I../src-SQ -I../src-SQ_c++11
 CXX = g++ -O3 -DNDEBUG -DUSE_PTHREADS -std=c++11
-all: testSimple_threadpool_object  
+all: test_threadpool  
 
-testSimple_threadpool_object.o: testSimple_threadpool_object.cpp  Makefile  
-	$(CXX) $(CPPFLAGS) -c testSimple_threadpool_object.cpp
+test_threadpool.o: test_threadpool.cpp  Makefile  
+	$(CXX) $(CPPFLAGS) -c test_threadpool.cpp
 
-testSimple_threadpool_object: testSimple_threadpool_object.o
-	$(CXX) -o  testSimple_threadpool_object testSimple_threadpool_object.o $(LDFLAGS)
-	true testSimple_threadpool_object
+test_threadpool: test_threadpool.o
+	$(CXX) -o  test_threadpool test_threadpool.o $(LDFLAGS)
+	true test_threadpool
 
 
-Makefile.dep: testSimple_threadpool_object.cpp   
-	$(CXX) $(CPPFLAGS) -MM testSimple_threadpool_object.cpp   > Makefile.dep
+Makefile.dep: test_threadpool.cpp   
+	$(CXX) $(CPPFLAGS) -MM test_threadpool.cpp   > Makefile.dep
 
 clean: Makefile.dep
-	rm -f core* testSimple_threadpool_object  *.o *.dep  
+	rm -f core* test_threadpool  *.o *.dep  
 
 include Makefile.dep

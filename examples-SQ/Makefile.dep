@@ -1,6 +1,6 @@
-testSimple_threadpool_object.o: testSimple_threadpool_object.cpp \
- ../src-SQ_c++11/SimpleObjThreadPool.h \
- ../src-SQ_c++11/./ThreadSafeQueue.h \
+test_threadpool.o: test_threadpool.cpp \
+ ../src-SQ_c++11/WorkStealingObjThreadPool.h \
+ ../src-SQ_c++11/./ThreadSafeQueue.h ../src-SQ_c++11/./WorkStealingQ.h \
  ../src-SQ_c++11/../src/CriticalStorage.h ../../PsimagLite/src/Vector.h \
  ../../PsimagLite/src/Complex.h ../../PsimagLite/src/AllocatorCpu.h \
  ../../PsimagLite/src/String.h ../src-SQ_c++11/../src/Mpi.h \
