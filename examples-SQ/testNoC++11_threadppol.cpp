@@ -5,11 +5,11 @@
 #include <queue>
 #include <iostream>
 #include <pthread.h> //for pthread_t 
-#include <atomic>
+//#include <atomic>
 #include <chrono>
 #include <string>
 
-#include "../src-SQ_c++11/WorkStealingObjThreadPool.h"
+#include "../src-SQ/WorkStealingObjThreadPool.h"
 #include "../src-SQ/CriticalStorage.h"
 
 class VBlock{
@@ -20,26 +20,13 @@ public:
 
         void executeTask() {
                 unsigned int microseconds=1000000;
-                usleep(microseconds+VIndex*10000);
-		std::string str="in VBlock with VIndex= "+std::to_string(VIndex)+"\n";
+                usleep(microseconds+10000);
+                //usleep(microseconds+VIndex*10000);
+		std::string str="in VBlock with VIndex= "+std::to_string(microseconds)+"\n";
+		//std::string str="in VBlock with VIndex= "+std::to_string(VIndex)+"\n";
 		std::cout<<str;
         };
 };
-
-class DBlock{
-        int DIndex;
-public:
-        DBlock(int index): DIndex(index) {};
-        ~DBlock() {};
-
-        void executeTask() {
-                unsigned int microseconds=1000000;
-                usleep(microseconds+10000);
-                std::string str="in a dump DBlock which can not print DIndex\n";
-                std::cout<<str;
-        };
-};
-
 
 void a() { printf("a\n"); }
 
@@ -56,17 +43,16 @@ int main(int argc, char* argv[]){
         std::cout<<"input: "<<job_num<<" "<<nPthreads<<" "<<SpareTire<<"\n";
 
 	std::atomic_bool done;
-	ConcurrentPsi::WorkStealingObjThreadPool<DBlock*> testPool; 
+	ConcurrentPsi::WorkStealingObjThreadPool<VBlock*> testPool; 
 
 	// generate a lot of VBlock tasks
-	DBlock* B[job_num];
+	VBlock* V[job_num];
 	for (SizeType i=0; i<job_num; i++){
-		B[i] = new DBlock(i);//create a VBlock object, assign it to a pointer 
+		V[i] = new VBlock(i);//create a VBlock object, assign it to a pointer 
 	}	
-	std::cout<<"In test_threadpool.cpp line 52, after initialize all the VBlocks.\n"; 
+
         for (SizeType i=0; i<job_num; i++){
-	std::cout<<"In test_threadpool.cpp line 54, pushing "<<i<<"th VBlock pointer to testpool.\n"; 
-		testPool.submit( B[i] );
+		testPool.submit( V[i] );
         }
 	printf("submit finish\n");
 	testPool.submissionDone = true;

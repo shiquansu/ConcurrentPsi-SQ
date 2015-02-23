@@ -17,12 +17,16 @@ public:
     WorkStealingQ()
     {}
 
-    //orktealing_queue(const work_stealing_queue& other)=delete;
-    //orktealing_queue& operator=(const work_stealing_queue& other)=delete;
+    WorkStealingQ(const WorkStealingQ& other)=delete;
+    WorkStealingQ& operator=(const WorkStealingQ& other)=delete;
 
     void push(T new_job){
         std::lock_guard<std::mutex> lk(mut);
-        job_deque.push_front(std::move(new_job));
+	std::cout<<"In WorkStealingQ.h, before job_deque.push_front.\n"; 
+	new_job->executeTask(); 
+        job_deque.push_front(new_job);
+        //job_deque.push_front(std::move(new_job));
+	std::cout<<"In WorkStealingQ.h, after job_deque.push_front.\n"; 
     }
 
     bool empty() const{

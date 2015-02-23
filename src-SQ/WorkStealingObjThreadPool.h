@@ -19,17 +19,12 @@ public:
 	std::atomic_bool jobDone;
 private:
 	ConcurrentPsi::ThreadSafeQueue<T> centralWorkQ;
-
-	ConcurrentPsi::WorkStealingQ<T>* localWorkQ;
-	//typedef ConcurrentPsi::WorkStealingQ<T> LocalWorkQType;
-	//std::unique_ptr<LocalWorkQType> localWorkQ;
-	//static thread_local ConcurrentPsi::WorkStealingQ<T>* localWorkQ;
- 
 	std::vector< std::unique_ptr<WorkStealingQ<T>> > workerQ;
-
 	std::vector<std::thread> threadsVector;
 	JoinThreads joiner;
-	//static thread_local ConcurrentPsi::WorkStealingQ<T>* localWorkQ;
+
+	thread_local WorkStealingQ<T>* localWorkQ;
+	//static thread_local WorkStealingQ<T>* localWorkQ;
 	unsigned myIndex;	
 	//thread_local unsigned myIndex;	
 	//static thread_local unsigned myIndex;	
@@ -38,7 +33,7 @@ private:
 		myIndex=myIndex_;
 		localWorkQ=workerQ[myIndex].get();
 		//while(!done){
-		while( !(localWorkQ->empty() && centralWorkQ.empty() && submissionDone) ){
+		while( !(workerQ.empty() && centralWorkQ.empty() && submissionDone) ){
 			runPendingTask();
 		}
 		jobDone=true;
@@ -66,7 +61,6 @@ public:
 		done(false), submissionDone(false), jobDone(false),joiner(threadsVector)
 	{
 		unsigned const thread_count=std::thread::hardware_concurrency();
-		std::cout<<"In WorkStealingObjThreadPool(), thread_count is: "<<thread_count<< "\n"; 
 		try
 		{
 			for ( unsigned i=0; i<thread_count; ++i )
@@ -76,7 +70,6 @@ public:
 					std::thread(&WorkStealingObjThreadPool::threadRunTaskFromQueue, this, i)
 				);
 			}
-		std::cout<<"In WorkStealingObjThreadPool(), after generating all the threads.\n"; 
 		}
 		catch(...)
 		{
@@ -95,24 +88,19 @@ public:
 	void submit(T taskObj)
 	{
 		if( localWorkQ ){
-			std::cout<<"In WorkStealingObjThreadPool.h, before push to localWorkQ.\n";
-			//taskObj->executeTask();
-			localWorkQ->push(taskObj);
-			//localWorkQ->push(std::move(taskObj));
-			std::cout<<"In WorkStealingObjThreadPool.h, after push to localWorkQ.\n";
+			localWorkQ->push(std::move(taskObj));
 		}else{ 
-			std::cout<<"In WorkStealingObjThreadPool.h, push to centralWorkQ.\n";
 			centralWorkQ.push(std::move(taskObj));
 		}
 	}
 
 	void runPendingTask(){
-		T taskRef;
-		if ( popTaskFromLocalQ(taskRef) ||
-		     popTaskFromCentralQ(taskRef) ||
-		     popTaskFromOtherQ(taskRef) )
+		T task;
+		if ( popTaskFromLocalQ(task) ||
+		     popTaskFromCentralQ(task) ||
+		     popTaskFromOtherQ(task) )
 		{
-			taskRef->executeTask();
+			task->executeTask();
 		}else{
 			std::this_thread::yield();
 		}
