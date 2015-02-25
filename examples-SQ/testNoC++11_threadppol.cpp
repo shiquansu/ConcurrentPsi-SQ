@@ -4,9 +4,9 @@
 #include <vector>
 #include <queue>
 #include <iostream>
-#include <pthread.h> //for pthread_t 
-//#include <atomic>
-#include <chrono>
+#include "Pthreads.h" //for pthread_t 
+//#include <atomic>   //require c++11
+//#include <chrono>   //require c++11
 #include <string>
 
 #include "../src-SQ/WorkStealingObjThreadPool.h"
@@ -57,7 +57,6 @@ int main(int argc, char* argv[]){
         std::cout<<"input: "<<job_num<<" "<<nPthreads<<" "<<SpareTire<<"\n";
 
 	//std::atomic_bool done;
-	bool done;
 	ConcurrentPsi::WorkStealingObjThreadPool<DBlock*> testPool; 
 
 	// generate a lot of VBlock tasks
@@ -72,6 +71,7 @@ int main(int argc, char* argv[]){
         }
 	printf("submit finish\n");
 	testPool.submissionDone = true;
-	while(testPool.jobDone == false) std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	//while(testPool.jobDone == false) std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	while(testPool.jobDone == false) sleep(1);
         return 0;
 }

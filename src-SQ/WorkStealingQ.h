@@ -1,7 +1,8 @@
 #include <queue>
-#include <mutex> //require -std=c++11                                               
-#include <condition_variable> //require -std=c++11                                  
-#include <thread>
+//#include <mutex> //require -std=c++11                                           
+//#include <condition_variable> //require -std=c++11     
+//#include <thread>
+#include "Pthreads.h"
 #include <memory>
 
 namespace ConcurrentPsi {

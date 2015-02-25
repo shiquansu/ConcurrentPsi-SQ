@@ -5,22 +5,22 @@
 # MPI: 0
 
 LDFLAGS =         -lm  -lpthread
-CPPFLAGS = -Werror -Wall -Wstrict-overflow=5  -frecord-gcc-switches   -I../../PsimagLite -I../../PsimagLite/src -I../src-SQ -I../src-SQ_c++11
+CPPFLAGS = -Werror -Wall -Wstrict-overflow=5  -frecord-gcc-switches   -I../../PsimagLite -I../../PsimagLite/src -I../src-SQ
 CXX = g++ -O3 -DNDEBUG -DUSE_PTHREADS -std=c++11
-all: test_threadpool  
+all: testNoC++11_threadppol  
 
-test_threadpool.o: test_threadpool.cpp  Makefile  
-	$(CXX) $(CPPFLAGS) -c test_threadpool.cpp
+testNoC++11_threadppol.o: testNoC++11_threadppol.cpp  Makefile  
+	$(CXX) $(CPPFLAGS) -c testNoC++11_threadppol.cpp
 
-test_threadpool: test_threadpool.o
-	$(CXX) -o  test_threadpool test_threadpool.o $(LDFLAGS)
-	true test_threadpool
+testNoC++11_threadppol: testNoC++11_threadppol.o
+	$(CXX) -o  testNoC++11_threadppol testNoC++11_threadppol.o $(LDFLAGS)
+	true testNoC++11_threadppol
 
 
-Makefile.dep: test_threadpool.cpp   
-	$(CXX) $(CPPFLAGS) -MM test_threadpool.cpp   > Makefile.dep
+Makefile.dep: testNoC++11_threadppol.cpp   
+	$(CXX) $(CPPFLAGS) -MM testNoC++11_threadppol.cpp   > Makefile.dep
 
 clean: Makefile.dep
-	rm -f core* test_threadpool  *.o *.dep  
+	rm -f core* testNoC++11_threadppol  *.o *.dep  
 
 include Makefile.dep

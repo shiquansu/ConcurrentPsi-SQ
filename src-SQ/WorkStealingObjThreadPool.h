@@ -3,8 +3,8 @@
 //#include <condition_variable> //require -std=c++11
 #include <memory>
 //#include <future> // for future
-#include <type_traits> // for result_of
 //#include <atomic> // require -std=c++11
+#include "Pthreads.h"
 
 #include "./ThreadSafeQueue.h"
 #include "./WorkStealingQ.h"
@@ -70,9 +70,11 @@ private:
 
 public:
 	WorkStealingObjThreadPool():
-		done(false), submissionDone(false), jobDone(false),joiner(threadsVector)
+		done(false), submissionDone(false), jobDone(false)
+//,joiner(threadsVector)
 	{
-		unsigned const thread_count=std::thread::hardware_concurrency();
+		//unsigned const thread_count=std::thread::hardware_concurrency();
+		unsigned const thread_count=16;
 		std::cout<<"In WorkStealingObjThreadPool(), thread_count is: "<<thread_count<< "\n"; 
 		try
 		{
@@ -81,7 +83,7 @@ public:
 				workerQ.push_back( std::unique_ptr<WorkStealingQ<T>>(new WorkStealingQ<T>) );
 				threadsVector.push_back(
 				//	std::thread(&WorkStealingObjThreadPool::threadRunTaskFromQueue, this, i)
-					Pthreads::create(this, NULL, &WorkStealingObjThreadPool::threadRunTaskFromQueue, i)
+					Pthreads::create(this, NULL, &WorkStealingObjThreadPool::threadRunTaskFromQueue, &i)
 				);
 			}
 		std::cout<<"In WorkStealingObjThreadPool(), after generating all the threads.\n"; 
@@ -122,7 +124,8 @@ public:
 		{
 			taskRef->executeTask();
 		}else{
-			std::this_thread::yield();
+			//std::this_thread::yield();
+			pthread_yield();
 		}
 	}	
 }; //class WorkStealingObjThreadPool
