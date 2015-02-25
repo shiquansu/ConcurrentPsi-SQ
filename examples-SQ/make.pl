@@ -37,8 +37,8 @@ sub writeMakefile
 	my $lapack = " ";
 
 	## C++11 suppport
-	$cppflags .= " -I../src-SQ_c++11";
-	$cxx .=" -std=c++11";
+	#$cppflags .= " -I../src-SQ_c++11";
+	#$cxx .=" -std=c++11";
 
 	Make::make($fh,\@drivers,"FreeFermions","Linux",0,
 	"$lapack    -lm  -lpthread",$cxx,$cppflags,"true"," "," ");
